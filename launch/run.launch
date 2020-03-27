@@ -1,0 +1,28 @@
+<launch>
+	<arg name="rgb_path" default="/home/dongjai/action data set/dataset/multiperson/1stop/RGB" />
+	<arg name="dp_path" default="/home/dongjai/action data set/dataset/multiperson/1stop/depth" />
+	<arg name="sp" default="true" />
+	<arg name="d435" default="true" />
+	<arg name="yolo_gpu_usages" default="0.4" />
+	<arg name="nn_pix" default="3" />
+	<arg name="kps_usage_num" default="5" />
+	<arg name="kp_num" default="[0, 4, 7, 9, 12]" />
+
+	<!--
+	<arg name="model" default="mobilenet_thin" />
+	-->
+
+ 	<node name="pub_xyzcls" pkg="act_recognizer" type="talker.py" required="true" output="screen" >
+        	<param name="rgb_path" value="$(arg rgb_path)" />
+        	<param name="dp_path" value="$(arg dp_path)" />
+        	<param name="sp" value="$(arg sp)" />
+		<param name="d435" value="$(arg d435)" />
+		<param name="yolo_gpu_usages" value="$(arg yolo_gpu_usages)" />
+		<param name="nn_pix" value="$(arg nn_pix)" />
+		<param name="kps_usage_num" value="$(arg kps_usage_num)" />
+		<param name="kp_num" value="$(arg kp_num)" />
+	</node>
+
+	<node name="sub_xyzcls" pkg="act_recognizer" type="listener.py" required="true" output="screen" >
+	</node>
+</launch>
