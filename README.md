@@ -3,7 +3,13 @@ Yolov3, Openpose, Tensorflow2, ROS, multi-thread
 
 This is my final year project "3D Action Recognition based on Openpose and YOLO".
 
-## Pre_requisite
+## Prerequisite
+
+### 0. install openpose python api
+
+Following the openpose homepage instruction to install [openpose](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation.md) and compile the [python api](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation.md#python-api).
+
+
 ### 1. create a conda env.
 
 ```
