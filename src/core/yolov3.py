@@ -11,7 +11,6 @@
 #
 #================================================================
 import sys
-sys.path.append('/home/dongjai/catkin_ws/src/act_recognizer/src/')
 import numpy as np
 import tensorflow as tf
 import core.utils as utils

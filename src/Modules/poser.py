@@ -9,11 +9,11 @@ import cv2
 import scipy.misc
 import numpy as np
 
-sys.path.append('/home/dongjai/catkin_ws/src/act_recognizer/src/')
+sys.path.append('..')
 import core.utils as utils
 import core.operation as operation
 
-sys.path.append('/home/dongjai/openpose/build/python/')
+sys.path.append('/home/dongjai/openpose/build/python')
 from openpose import pyopenpose as op
 
 class PoseLoader():

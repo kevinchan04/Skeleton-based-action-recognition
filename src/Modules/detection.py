@@ -1,16 +1,15 @@
 #!/home/dongjai/anaconda3/envs/tensorflow2/bin/python
 import os
-import sys
 from threading import Thread
 from queue import Queue
 
 import cv2
 import scipy.misc
 import numpy as np
-
-sys.path.append('/home/dongjai/catkin_ws/src/act_recognizer/src/')
 import tensorflow as tf
 
+import sys
+sys.path.append('..')
 from core.yolov3 import YOLOv3, decode
 import core.utils as utils
 import core.operation as operation

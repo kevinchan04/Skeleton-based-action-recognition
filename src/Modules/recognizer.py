@@ -1,7 +1,5 @@
 #!/home/dongjai/anaconda3/envs/tensorflow2/bin/python
-import os
 import sys
-from sys import platform
 from threading import Thread
 from queue import Queue
 
@@ -10,7 +8,7 @@ import scipy.misc
 import numpy as np
 import tensorflow as tf
 
-sys.path.append('/home/dongjai/catkin_ws/src/act_recognizer/src/')
+sys.path.append('..')
 import core.utils as utils
 import core.operation as operation
 
@@ -18,6 +16,7 @@ class ActionRecognizer():
     def __init__(self, opt, queueSize=128):
         self.opt = opt
         self.kps_size = opt.kps_usage_num
+        self.mlp_weights = opt.mlp_weights
 
         self.act_recognizer = self._load_recognizer()
 
@@ -40,7 +39,7 @@ class ActionRecognizer():
             loss = tf.keras.losses.sparse_categorical_crossentropy,
             metrics = [tf.keras.metrics.sparse_categorical_accuracy]
         )
-        mlp_model.load_weights("/home/dongjai/catkin_ws/src/act_recognizer/src/checkpoints/new_mlp20_35_15.h5")
+        mlp_model.load_weights(self.mlp_weights)
         print("Successfully Loading Recognizer")
         return mlp_model
 

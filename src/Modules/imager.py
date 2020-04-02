@@ -1,6 +1,5 @@
 #!/home/dongjai/anaconda3/envs/tensorflow2/bin/python
 import os
-import sys
 import time
 from threading import Thread
 from queue import Queue

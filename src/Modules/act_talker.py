@@ -6,10 +6,10 @@ from queue import Queue
 
 import rospy
 from std_msgs.msg import String
-sys.path.append('/home/dongjai/catkin_ws/src/act_recognizer')
+sys.path.append('~/catkin_ws/src/act_recognizer')
 from act_recognizer.msg import Person
 from act_recognizer.msg import ActElem
-from act_recognizer.msg import Persons
+# from act_recognizer.msg import Persons
 
 import cv2
 import scipy.misc

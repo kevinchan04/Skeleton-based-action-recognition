@@ -1,19 +1,7 @@
 import cv2
-import random
-import colorsys
 import numpy as np
 import copy
-from core.config import cfg
 import tensorflow as tf
-import pyrealsense2 as rs
-
-##        import openpose       ##
-import os
-import sys
-from sys import platform
-import argparse
-sys.path.append('/home/dongjai/openpose/build/python')
-from openpose import pyopenpose as op
 
 def list_sortby(bboxes_one, index, order): 
     '''
