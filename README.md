@@ -27,18 +27,33 @@ cd catkin_ws/src
 mkdir -p act_recognizer
 ```
 
-### 3. download this repo
+Therefore, in your ROS workspace file folder, the structure will be as the following,
+```
+->~/catkin_ws
+----->build
+----->devel
+----->src
+--------->act_recognizer
+```
 
-Copy all files to ROS package `act_recognizer`
+### 3. clone this repo
 
-Modify the config.py. Changeing the path about the YOLO data, such as `YOLO.CLASSES` and `YOLO.ANCHORS`.
+Cloen the repo and copy all files to ROS package `act_recognizer`
 
-Change your openpose python api path, so that your code can import pyopenpose correctly.
-Additionally, you also have to change the openpose model path in `Module/poser.py`.
+Modify the `config.py`. Change the path about YOLO data, such as `YOLO.CLASSES` and `YOLO.ANCHORS`.
+
+Change your openpose python api path in `Module/poser.py`, so that your code can import pyopenpose correctly.
+
+Additionally, you also have to change the openpose model path.
+```
+Module/poser.py
+----->class PoseLoader()
+--------->self._params["model_folder"] = your openpose model folder
+```
 
 ### 4. download yolo and mlp checkpoints
 
-Download checkpoints from [BaiduYun](www). Then move `yolov3.weights` into checkpoints folder `checkpoints/YOLO` and  `mlp.h5` to  `checkpoints`.
+Download checkpoints from [BaiduYun](www). Then move `yolov3.weights` into checkpoints folder `checkpoints/YOLO` and  `mlp.h5` to  `checkpoints`. You should create a `checkpoints` folder first probably.
 
 ```
 cd act_recognizer/src
