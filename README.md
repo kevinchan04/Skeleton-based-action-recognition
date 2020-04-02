@@ -42,6 +42,11 @@ Therefore, in your ROS workspace file folder, the structure will be as the follo
 
 Cloen the repo and copy all files to ROS package `act_recognizer`
 
+Modify the `act_talker.py`. Likes,
+```
+sys.path.append('{$your root path}/catkin_ws/src/act_recognizer')
+```
+
 Modify the `config.py`. Change the path about YOLO data, such as `YOLO.CLASSES` and `YOLO.ANCHORS`.
 
 Change your openpose python api path in `Module/poser.py`, so that your code can import pyopenpose correctly.
