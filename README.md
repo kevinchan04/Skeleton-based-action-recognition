@@ -53,7 +53,7 @@ Module/poser.py
 
 ### 4. download yolo and mlp checkpoints
 
-Download checkpoints from [BaiduYun](www). Then move `yolov3.weights` into checkpoints folder `checkpoints/YOLO` and  `mlp.h5` to  `checkpoints`. You should create a `checkpoints` folder first probably.
+Download checkpoints from [BaiduYun](https://pan.baidu.com/s/1XAbQe_AZBWuXT1MvYESh4w) the extract code is *cxj6*. Then move `yolov3.weights` into checkpoints folder `checkpoints/YOLO` and  `mlp.h5` to  `checkpoints`. You should create a `checkpoints` folder first probably.
 
 ```
 cd act_recognizer/src
