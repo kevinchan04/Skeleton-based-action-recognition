@@ -1,9 +1,11 @@
 # Skeleton-based-action-recognition
 Yolov3, Openpose, Tensorflow2, ROS, multi-thread
 
+It also support for remote GPU server. You can grap a frame from D435 in local and then send the data to remote server to process the data and return the result.
+
 This is my final year project "3D Action Recognition based on Openpose and YOLO".
 
-## Prerequisite
+## Installation
 
 ### 0. install openpose python api
 
