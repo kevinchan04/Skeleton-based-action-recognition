@@ -9,11 +9,6 @@ This is my final year project "3D Action Recognition based on Openpose and YOLO"
 
 Following the openpose homepage instruction to install [openpose](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation.md) and compile the [python api](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation.md#python-api).
 
-Modify the config.py. Changeing the path about the YOLO data, such as `YOLO.CLASSES` and `YOLO.ANCHORS`.
-
-Change your openpose python api path, so that your code can import pyopenpose correctly.
-Additionally, you also have to change the openpose model path in `Module/poser.py`.
-
 
 ### 1. create a conda env.
 
@@ -32,13 +27,33 @@ cd catkin_ws/src
 mkdir -p act_recognizer
 ```
 
-### 3. download this repo
+Therefore, in your ROS workspace file folder, the structure will be as the following,
+```
+->~/catkin_ws
+----->build
+----->devel
+----->src
+--------->act_recognizer
+```
 
-Copy all files to ROS package `act_recognizer`
+### 3. clone this repo
+
+Cloen the repo and copy all files to ROS package `act_recognizer`
+
+Modify the `config.py`. Change the path about YOLO data, such as `YOLO.CLASSES` and `YOLO.ANCHORS`.
+
+Change your openpose python api path in `Module/poser.py`, so that your code can import pyopenpose correctly.
+
+Additionally, you also have to change the openpose model path.
+```
+Module/poser.py
+----->class PoseLoader()
+--------->self._params["model_folder"] = your openpose model folder
+```
 
 ### 4. download yolo and mlp checkpoints
 
-Download checkpoints from [BaiduYun](www). Then move `yolov3.weights` into checkpoints folder `checkpoints/YOLO` and  `mlp.h5` to  `checkpoints`.
+Download checkpoints from [BaiduYun](https://pan.baidu.com/s/1XAbQe_AZBWuXT1MvYESh4w) the extract code is *cxj6*. Then move `yolov3.weights` into checkpoints folder `checkpoints/YOLO` and  `mlp.h5` to  `checkpoints`. You should create a `checkpoints` folder first probably.
 
 ```
 cd act_recognizer/src
