@@ -11,6 +11,11 @@ class myServer():
         self.opt = opt
         self.host = opt.host
         self.port = opt.port
+        from multiprocessing.connection import Listener
+        server_sock = Listener((self.host, self.port))
+
+        self.conn = server_sock.accept()
+        print('Server Listening')
 
         if opt.sp:
             self.data_queue = Queue(maxsize=queueSize)
@@ -25,10 +30,12 @@ class myServer():
     
     def start(self):
         self.server_worker = self.start_worker(self.frame_reader_process)
+        self.data_send_worker = self.start_worker(self.data_send_process)
         return self
 
     def stop(self):
         self.server_worker.join()
+        self.data_send_worker.join()
         self.clear_queues()
 
     def clear_queues(self):
@@ -45,23 +52,20 @@ class myServer():
         return queue.get()
     
     def frame_reader_process(self, **kargcs):
-        from multiprocessing.connection import Listener
-        server_sock = Listener((self.host, self.port))
-
-        conn = server_sock.accept()
-        print('Server Listening')
         while True:
-            data_bytes = conn.recv()
+            data_bytes = self.conn.recv()
             data = pickle.loads(data_bytes)
             # print('Received:', type(data))
             self.wait_and_put(self.data_queue, data)
 
-            pred_data = self.wait_and_get(self.outptu_queue)
-            pred_data_bytes = pickle.dumps(pred_data)
-            conn.send(pred_data_bytes)
+    def data_send_process(self):
+        while True:
+            (bboxes, pred_data) = self.wait_and_get(self.outptu_queue)
+            pred_data_bytes = pickle.dumps((bboxes, pred_data))
+            self.conn.send(pred_data_bytes)
     
     def read_data(self):
         return self.wait_and_get(self.data_queue)
     
-    def get_data(self, pred_data):
-        self.wait_and_put(self.outptu_queue, pred_data)
+    def get_data(self, bboxes, pred_data):
+        self.wait_and_put(self.outptu_queue, (bboxes, pred_data))
