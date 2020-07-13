@@ -18,6 +18,8 @@ class MidProcessor():
     def __init__(self, opt, queueSize=128):
         self.opt = opt
         self.nn_pix = opt.nn_pix
+        self.is_train = opt.is_train
+        self.training_set = opt.training_set
 
         if opt.sp:#单线程
             self.data_queue = Queue(maxsize=queueSize)
@@ -60,13 +62,12 @@ class MidProcessor():
             # print("kp list: ",kps_list)
             # print("bboxes: ",bboxes)
             _flag = self._filter_error(kps_list, bboxes)
-            if not _flag or len(kps_list) != len(bboxes):#change in Friday night
+            if not _flag or len(kps_list) != len(bboxes):
                 print("error")
                 self.wait_and_put(self.fuse_queue, ((kp_nums, None)))
             else:
                 output = []
                 for kp_list in kps_list:
-                    # file_txt = open(r"/home/dongjai/action data set/dataset/5_stand.txt", 'a')#根据不同的类别修改txt的文件命名前缀
                     #[x, y, z]获得5个点映射到原图frame的3维坐标(x, y, z)，和附近的几个点
                     if self.opt.d435:
                         dp_nparray = operation.get_keypoints_xyz(kp_list=kp_list, nn_pix=self.nn_pix, live=True, live_frame=dp_frame)
@@ -80,9 +81,11 @@ class MidProcessor():
                     dp_array_no_neg = operation.no_negative(array=dp_array_out)
                     #将小于0.001的数字认为是0
                     dp_array_no_neg_zero = operation.filter_zero(dp_array_no_neg, threadhold=0.001)
-                    # file_txt.write(str(dp_array_no_neg))
-                    # file_txt.write('\n')
-                    # file_txt.close()
+                    if self.is_train:
+                        file_txt = open(self.training_set, 'a')#根据不同的类别修改txt的文件命名前缀
+                        file_txt.write(str(dp_array_no_neg))
+                        file_txt.write('\n')
+                        file_txt.close()
                     dp_array_no_neg_zero = np.expand_dims(dp_array_no_neg_zero, axis=-1) 
                     # dp_array_no_neg_zero = np.expand_dims(dp_array_no_neg_zero, axis=0) 
                     # print(dp_array_no_neg_zero)

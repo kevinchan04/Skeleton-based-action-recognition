@@ -8,7 +8,7 @@ from queue import Queue
 
 from tqdm import tqdm
 import cv2
-# import rospy
+import rospy # if using ros, turn it on
 
 sys.path.append('/home/dongjai/catkin_ws/src/act_recognizer/src/')
 import core.utils as utils
@@ -18,8 +18,8 @@ from Modules.detection import DetectionLoader
 from Modules.poser import  PoseLoader
 from Modules.midprocessor import MidProcessor
 from Modules.recognizer import ActionRecognizer
-from Modules.act_talker import Talker
-# from Modules.myserver import myServer
+from Modules.act_talker import Talker # using a ros publisher
+# from Modules.myserver import myServer # using a remote server
 
 def getTime(time1=0):
     if not time1:
@@ -34,10 +34,16 @@ def loop():
         yield n
         n += 1
 
-parser = argparse.ArgumentParser(description='Debug')
-parser.add_argument('--rgb_path', type=str, default=r"/home/dongjai/action data set/dataset/multiperson/2come/RGB",
+parser = argparse.ArgumentParser(description='Debug') 
+### for training set record
+parser.add_argument('--is_train', type=bool, default=False,
+                        help='is_train is True means write records from Openpose and Normalization into a txt file.')
+parser.add_argument('--training_set', type=str, default=r"/home/dongjai/action data set/dataset/twoperson/0walk.txt",
+                        help='txt file to store training set.')
+### for inference
+parser.add_argument('--rgb_path', type=str, default=r"/home/dongjai/action data set/dataset/twoperson/4open/RGB",
                         help='path to store rgb images')
-parser.add_argument('--dp_path', type=str, default=r"/home/dongjai/action data set/dataset/multiperson/2come/depth",
+parser.add_argument('--dp_path', type=str, default=r"/home/dongjai/action data set/dataset/twoperson/4open/depth",
                         help='path to store depth images')
 parser.add_argument('--cam_json', type=str, default=r"/home/dongjai/catkin_ws/src/act_recognizer/src/mediandensity.json",
                         help='the camera setting json file path')
@@ -154,8 +160,8 @@ try:
 
             (kp_nums, output) = mid_processor.read()
             ckpt_time, mid_proc_time = getTime(ckpt_time)
-            # output = True
-            if output:
+            # output = False #It is used to pass the following loop
+            if output and not args.is_train:
                 # print(output)
                 act_recognizer.put_data(kp_nums, output)
                 (out_nums, pred_data) = act_recognizer.read()
@@ -163,7 +169,7 @@ try:
                 # cv2.imwrite("/home/dongjai/catkin_ws/src/act_recognizer/store/random/{}.png".format(rgb_nums), image)
                 print(pred_data)
                 #Using ROS talker to publish the information.
-                # ros_talker.put_data(pred_data)
+                ros_talker.put_data(pred_data)
                 for i in pred_data:
                     action_t = i[-1]
                     if action_t == 0:
@@ -180,7 +186,7 @@ try:
                         open_t +=1   
             else:
                 pred_data = None
-        # proc_server.get_data(pred_data)
+        # proc_server.get_data(bboxes, pred_data)
         image = utils.draw_bbox(rgb_frame, bboxes, pred=pred_data, classes=label_list)
         cv2.namedWindow("result", cv2.WINDOW_AUTOSIZE)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
@@ -193,7 +199,7 @@ try:
             #         img=img_read_time, put=det_loader_put_time, det=det_time, opt=det_openpose_time, mid=mid_proc_time, mlp=mlp_pred_time)
             # )
     print("walk: {}, stand: {}, stop: {}, come:{}, open:{}, phone:{}".format(walk_t, stand_t, stop_t, come_t, open_t, phone_t))       
-    # proc_server.stop() 
+    # proc_server.stop()
     image_reader.stop()
     # camera_reader.stop()
     det_loader.stop()
