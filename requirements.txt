@@ -68,7 +68,7 @@ Keras-Preprocessing==1.1.0
 kiwisolver==1.1.0
 laser-geometry==1.6.4
 lazy-object-proxy==1.4.3
-lxml==4.2.6
+lxml==4.6.2
 Markdown==3.2.1
 MarkupSafe==1.0
 matplotlib==3.2.1
