@@ -51,7 +51,7 @@ image-geometry==1.13.0
 imageio==2.4.1
 interactive-markers==1.11.4
 ipykernel==4.6.1
-ipython==6.1.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 ipywidgets==6.0.0
 isort==4.3.21
