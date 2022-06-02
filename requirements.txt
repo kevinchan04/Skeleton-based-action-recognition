@@ -45,7 +45,7 @@ google-auth-oauthlib==0.4.1
 google-pasta==0.2.0
 grpcio==1.27.2
 h5py==2.10.0
-html5lib==0.9999999
+html5lib==0.99999999
 idna==2.9
 image-geometry==1.13.0
 imageio==2.4.1
