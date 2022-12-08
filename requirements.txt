@@ -12,7 +12,7 @@ camera-calibration==1.14.0
 camera-calibration-parsers==1.11.13
 catkin==0.7.20
 catkin-pkg==0.4.16
-certifi==2019.11.28
+certifi==2022.12.7
 chardet==3.0.4
 cloudpickle==1.2.2
 clyent==1.2.2
